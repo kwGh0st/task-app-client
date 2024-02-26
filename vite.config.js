@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   server: {
     host: "0.0.0.0",
-    port: import.meta.env.PORT || 3000, // Use PORT environment variable or default to 3000
+    port: 3000,
   },
 });
