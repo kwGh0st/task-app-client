@@ -26,7 +26,9 @@ const ResendVerificationTokenComponent = () => {
       .catch((error) => {
         toast.error(error.response.data);
       })
-      .finally(setProcessing(false));
+      .finally(() => {
+        setProcessing(false);
+      });
   }
 
   return (
