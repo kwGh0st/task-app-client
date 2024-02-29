@@ -98,12 +98,13 @@ const LoginComponent = () => {
           </button>
         </div>
         <div className="flex flex-col gap-3">
-          <a
+          <Link
             className="text-blue-600 ease-in duration-300 hover:text-blue-300 font-bold text-sm"
-            href="/user/login/forgot-password"
+            to="/user/login/forgot-password"
           >
             Forgot password?
-          </a>
+          </Link>
+
           <p className="text-gray-500 text-md font-bold mb-2 py-2">
             Don't have an account?{" "}
             <Link
