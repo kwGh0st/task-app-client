@@ -54,7 +54,7 @@ const ResendVerificationTokenComponent = () => {
         </div>
         <div className="flex items-center justify-between mb-4">
           <button
-            className="w-full bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-2 rounded ease-in duration-300 focus:outline-none focus:shadow-outline"
+            className="disabled:opacity-75 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed w-full bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-2 rounded ease-in duration-300 focus:outline-none focus:shadow-outline"
             onClick={handleResendToken}
             disabled={processing}
           >
@@ -78,7 +78,7 @@ const ResendVerificationTokenComponent = () => {
                 </svg>
               </div>
             )}
-            Resend Token
+            Send new Token
           </button>
         </div>
         <Link
