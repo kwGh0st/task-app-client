@@ -37,7 +37,7 @@ const ForgotPasswordComponent = () => {
 
   return (
     <div className="flex flex-row items-start justify-center h-screen bg-gray-800">
-      <div className=" bg-gray-900 shadow-md rounded-l-xl px-8 pt-6 pb-8 my-8 w-full min-h-96 max-w-md">
+      <div className=" bg-gray-900 shadow-md rounded-l-xl px-8 pt-6 pb-8 my-8 w-11/12 min-h-96 max-w-md">
         <ToastContainer position="top-center" autoClose={6000} />
         <h2 className="text-3xl font-semibold text-white mb-6">
           Reset Password

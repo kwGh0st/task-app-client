@@ -33,7 +33,7 @@ const ResendVerificationTokenComponent = () => {
 
   return (
     <div className="flex flex-row items-start justify-center h-screen bg-gray-800">
-      <div className="flex flex-col bg-gray-900 shadow-md rounded-xl px-8 pt-6 pb-8 my-8 w-full min-h-96 max-w-md">
+      <div className="flex flex-col bg-gray-900 shadow-md rounded-xl px-8 pt-6 pb-8 my-8 w-11/12 min-h-96 max-w-md">
         <ToastContainer position="top-center" autoClose={5000} />
         <h2 className="text-3xl font-semibold text-white mb-6">
           Resend Verification Email

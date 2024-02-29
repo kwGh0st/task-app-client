@@ -33,16 +33,14 @@ const LoginComponent = () => {
 
   useEffect(() => {
     if (confirmationSuccess) {
-      toast.success("Confirmation successful. Now you can log in.", {
-        position: "top-center",
-      });
+      toast.success("Confirmation successful. Now you can log in.");
     }
   }, [confirmationSuccess]);
 
   return (
     <div className="flex flex-row flex-wrap items-start justify-center min-h-screen bg-gray-800">
       <ToastContainer position="top-center" autoClose={6000} />
-      <div className=" bg-gray-900 shadow-md rounded-xl  lg:rounded-r-none px-8 pt-6 pb-8 mt-8 w-full min-h-96 max-w-md ">
+      <div className=" bg-gray-900 shadow-md rounded-xl px-8 pt-6 pb-8 mt-8 w-11/12 min-h-96 max-w-md ">
         <div className="flex flex-row flex-wrap justify-between">
           <h2 className="text-3xl font-semibold text-white mb-6">Login</h2>
           <Link

@@ -52,16 +52,16 @@ const CreateUserComponent = () => {
 
   return (
     <div className="flex flex-row items-start justify-center h-screen bg-gray-800">
-      <div className="bg-gray-900 shadow-md rounded-xl px-8 pt-6 pb-8 my-8 w-full min-h-96 max-w-md">
+      <div className="bg-gray-900 shadow-md rounded-xl px-8 pt-6 pb-8 my-8 w-11/12 min-h-96 max-w-md">
         <div className="flex flex-row justify-between">
           <h2 className="text-3xl font-semibold text-white mb-6">
             Create User
           </h2>
           <Link
-            className="mt-3text-blue-600 ease-in duration-300 hover:text-blue-300"
+            className="mt-3 text-blue-600 ease-in duration-300 hover:text-blue-300"
             to="/admin/manage-users"
           >
-            Back to User Management
+            Back to Admin Panel
           </Link>
         </div>
         <div className="w-full flex flex-row justify-center">

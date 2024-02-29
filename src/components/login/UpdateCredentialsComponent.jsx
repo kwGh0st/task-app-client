@@ -87,7 +87,7 @@ function UpdateCredentialsComponent() {
 
   return (
     <div className="flex flex-row items-start justify-center h-screen bg-gray-800">
-      <div className="bg-gray-900 shadow-md rounded-l-xl px-8 pt-6 pb-8 my-8 w-full min-h-96 max-w-md">
+      <div className="bg-gray-900 shadow-md rounded-l-xl px-8 pt-6 pb-8 my-8 w-11/12 min-h-96 max-w-md">
         <ToastContainer position="top-center" autoClose={6000} />
         <div className="flex flex-row justify-between">
           <h1 className="text-white text-2xl font-bold my-3">
