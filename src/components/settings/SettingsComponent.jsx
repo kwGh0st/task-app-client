@@ -15,7 +15,7 @@ const SettingsComponent = () => {
         <div className="flex flex-row justify-between">
           <h2 className="text-3xl font-semibold text-white mb-6">Settings</h2>
           <Link
-            className="mt-3 font-bold text-blue-600 ease-in duration-300 hover:text-blue-300"
+            className="mt-3 ml-2 font-bold text-blue-600 ease-in duration-300 hover:text-blue-300"
             to="/user/welcome"
           >
             Back to dashboard.
@@ -33,26 +33,27 @@ const SettingsComponent = () => {
               disabled={true}
               placeholder={authContext.email}
             />
+            <button className="w-2/5 h-fit bg-blue-700 hover:bg-blue-900 text-white font-bold text-sm py-1 mt-2 rounded ease-in duration-300">
+              <Link to="/user/settings/change-email">Change</Link>
+            </button>
           </div>
-          <button className="w-2/5 h-fit bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-2 rounded ease-in duration-300 ">
-            <Link to="/user/settings/change-email">Change</Link>
-          </button>
         </div>
         <div className="flex flex-row justify-between mb-4">
           <div className="flex flex-col items-start">
             <label className="block text-gray-300 text-sm font-bold mb-2">
               Password
             </label>
+
             <input
               className="text-start font-bold text-xl placeholder:text-gray-400 bg-gray-900"
               type="text"
               disabled={true}
               placeholder="*********"
             />
+            <button className="w-2/5 h-fit bg-blue-700 hover:bg-blue-900 text-white font-bold text-sm py-1 mt-2 rounded ease-in duration-300">
+              <Link to="/user/settings/change-password">Change</Link>
+            </button>
           </div>
-          <button className="w-2/5 h-fit bg-blue-700 hover:bg-blue-900 text-white font-bold py-2 px-4 mt-2 rounded ease-in duration-300 ">
-            <Link to="/user/settings/change-password">Change</Link>
-          </button>
         </div>
 
         <div className="relative">
