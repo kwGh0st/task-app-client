@@ -100,7 +100,7 @@ const LoginComponent = () => {
         <div className="flex flex-col gap-3">
           <a
             className="text-blue-600 ease-in duration-300 hover:text-blue-300 font-bold text-sm"
-            href="/user/login/reset-password"
+            href="/user/login/forgot-password"
           >
             Forgot password?
           </a>
