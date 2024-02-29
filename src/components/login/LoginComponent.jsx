@@ -97,26 +97,22 @@ const LoginComponent = () => {
             Log In
           </button>
         </div>
-        <div className="flex items-center justify-center">
+        <div className="flex flex-col gap-3">
           <a
             className="text-blue-600 ease-in duration-300 hover:text-blue-300 font-bold text-sm"
             href="/user/login/reset-password"
           >
             Forgot password?
           </a>
-        </div>
-      </div>
-      <div className="flex flex-col justify-center items-center bg-gray-400 shadow-md rounded-xl  lg:rounded-l-none px-8 pt-6 pb-8 mb-8 md:mt-8 w-full min-h-96 max-w-md">
-        <div className="text-center w-full mb-6">
-          <h2 className="text-3xl self-end font-semibold text-gray-900 mb-2">
-            Register
-          </h2>
-          <p className="text-gray-900 text-md font-bold mb-2 py-2 px-3">
-            Don't have an account? Register one!
+          <p className="text-gray-500 text-md font-bold mb-2 py-2">
+            Don't have an account?{" "}
+            <Link
+              to="/register"
+              className="underline text-blue-500 hover:text-blue-300 ease-in duration-300"
+            >
+              Register one!
+            </Link>
           </p>
-          <button className="w-full bg-cyan-700 hover:bg-cyan-900 text-gray-900 font-bold py-2 px-4 rounded ease-in duration-300 focus:outline-none focus:shadow-outline">
-            <Link to="/register">Register an Account</Link>
-          </button>
         </div>
       </div>
     </div>
