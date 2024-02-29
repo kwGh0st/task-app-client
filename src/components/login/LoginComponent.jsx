@@ -100,7 +100,7 @@ const LoginComponent = () => {
         <div className="flex items-center justify-center">
           <a
             className="text-blue-600 ease-in duration-300 hover:text-blue-300 font-bold text-sm"
-            href="/user/login/forgot-password"
+            href="/user/login/reset-password"
           >
             Forgot password?
           </a>
