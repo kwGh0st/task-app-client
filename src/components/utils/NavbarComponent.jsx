@@ -12,8 +12,6 @@ function NavbarComponent() {
   const [active, setActive] = useState("");
 
   const toPath = (link) => {
-    if (!authContext.isAdmin() && link.id === "Admin") return;
-
     return link.path;
   };
 
@@ -102,6 +100,10 @@ function NavbarComponent() {
                     key={link.id}
                     className={`${
                       active === link.id ? "text-blue-700" : " text-gray-950"
+                    }${
+                      !authContext.isAdmin() && link.id === "Admin"
+                        ? "hidden"
+                        : ""
                     } ease-in duration-300 hover:text-blue-700 font-medium cursor-pointer text-16px`}
                   >
                     <Link
