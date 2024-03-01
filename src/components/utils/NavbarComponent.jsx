@@ -98,13 +98,14 @@ function NavbarComponent() {
                 {navLinks.map((link) => (
                   <li
                     key={link.id}
-                    className={`${
-                      active === link.id ? "text-blue-700" : " text-gray-950"
-                    }${
+                    className={`
+                    ${
                       !authContext.isAdmin() && link.id === "Admin"
                         ? "hidden"
                         : ""
-                    } ease-in duration-300 hover:text-blue-700 font-medium cursor-pointer text-16px`}
+                    }
+                    ${active === link.id ? "text-blue-700" : " text-gray-950"}
+                     ease-in duration-300 hover:text-blue-700 font-medium cursor-pointer text-16px`}
                   >
                     <Link
                       key={link.id}
