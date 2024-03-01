@@ -28,7 +28,7 @@ const SettingsComponent = () => {
               Email
             </label>
             <input
-              className="text-start font-bold w-fit text-xl placeholder:text-gray-400 bg-gray-900"
+              className="text-start font-bold w-fit text-md placeholder:text-gray-400 bg-gray-900"
               type="text"
               disabled={true}
               placeholder={authContext.email}
@@ -45,7 +45,7 @@ const SettingsComponent = () => {
             </label>
 
             <input
-              className="text-start font-bold text-xl placeholder:text-gray-400 bg-gray-900"
+              className="text-start font-bold text-md placeholder:text-gray-400 bg-gray-900"
               type="text"
               disabled={true}
               placeholder="*********"
