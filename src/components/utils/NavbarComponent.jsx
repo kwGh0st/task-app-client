@@ -12,6 +12,8 @@ function NavbarComponent() {
   const [active, setActive] = useState("");
 
   const toPath = (link) => {
+    if (!authContext.isAdmin() && link.id === "Admin") return;
+
     return link.path;
   };
 
