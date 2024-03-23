@@ -155,147 +155,149 @@ const ListTodoComponent = () => {
             Add New Todo
           </button>
         </div>
-        <table className="min-w-full bg-slate-300 border-gray-500 border-2 shadow-md">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                Description
-              </th>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                Target Date
-              </th>
-              <th className="py-2 px-4 border-b text-center font-extrabold">
-                Is Done?
-              </th>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-slate-300 border-gray-500 border-2 shadow-md table-auto ">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  Description
+                </th>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  Target Date
+                </th>
+                <th className="py-2 px-4 border-b text-center font-extrabold">
+                  Is Done?
+                </th>
 
-              <th className="py-2 border-b text-end font-extrabold">
-                <div className="flex flex-col sm:flex-row justify-end items-center gap-4">
-                  <input
-                    type="text"
-                    placeholder="Find Description"
-                    className="py-1 px-2 w-40 bg-gray-300 font-normal text-gray-600 border-2 border-black rounded placeholder:font-normal placeholder:text-gray-600"
-                    value={searchTerm}
-                    onChange={handleSearchTermChange}
-                  />
-                  <div className="relative">
-                    <button
-                      className="bg-gray-500 w-20 hover:bg-gray-700 ease-in duration-300 text-white font-bold py-1 px-2 rounded"
-                      onClick={() => setShowDropdown(!showDropdown)}
-                    >
-                      {showDropdown ? "Close" : "Filter"}
-                    </button>
-                    {showDropdown && (
-                      <div className="absolute top-8 right-0 mx-4 my-2 min-w-[200px] z-10  bg-white rounded shadow-md">
-                        <ul className="list-none">
-                          <li className="py-1 px-2 text-start hover:bg-gray-100">
-                            <a
-                              href="#user-todos"
-                              className="text-gray-700 font-medium "
-                              onClick={() => sortTodosByDateAsc()}
-                            >
-                              Target Date: Ascending
-                            </a>
-                          </li>
-                          <li className="py-1 px-2 text-start hover:bg-gray-100">
-                            <a
-                              href="#user-todos"
-                              className="text-gray-700 font-medium "
-                              onClick={() => sortTodosByDateDesc()}
-                            >
-                              Target Date: Descending
-                            </a>
-                          </li>
-                          <li className="py-1 px-2 text-start hover:bg-gray-100">
-                            <a
-                              href="#user-todos"
-                              className="text-gray-700 font-medium "
-                              onClick={() => sortTodosByIsDone()}
-                            >
-                              Is Done?
-                            </a>
-                          </li>
+                <th className="py-2 border-b text-end font-extrabold">
+                  <div className="flex flex-col sm:flex-row justify-end items-center gap-4">
+                    <input
+                      type="text"
+                      placeholder="Find Description"
+                      className="py-1 px-2 w-40 bg-gray-300 font-normal text-gray-600 border-2 border-black rounded placeholder:font-normal placeholder:text-gray-600"
+                      value={searchTerm}
+                      onChange={handleSearchTermChange}
+                    />
+                    <div className="relative">
+                      <button
+                        className="bg-gray-500 w-20 hover:bg-gray-700 ease-in duration-300 text-white font-bold py-1 px-2 rounded"
+                        onClick={() => setShowDropdown(!showDropdown)}
+                      >
+                        {showDropdown ? "Close" : "Filter"}
+                      </button>
+                      {showDropdown && (
+                        <div className="absolute top-8 right-0 mx-4 my-2 min-w-[200px] z-10  bg-white rounded shadow-md">
+                          <ul className="list-none">
+                            <li className="py-1 px-2 text-start hover:bg-gray-100">
+                              <a
+                                href="#user-todos"
+                                className="text-gray-700 font-medium "
+                                onClick={() => sortTodosByDateAsc()}
+                              >
+                                Target Date: Ascending
+                              </a>
+                            </li>
+                            <li className="py-1 px-2 text-start hover:bg-gray-100">
+                              <a
+                                href="#user-todos"
+                                className="text-gray-700 font-medium "
+                                onClick={() => sortTodosByDateDesc()}
+                              >
+                                Target Date: Descending
+                              </a>
+                            </li>
+                            <li className="py-1 px-2 text-start hover:bg-gray-100">
+                              <a
+                                href="#user-todos"
+                                className="text-gray-700 font-medium "
+                                onClick={() => sortTodosByIsDone()}
+                              >
+                                Is Done?
+                              </a>
+                            </li>
 
-                          <li className="flex flex-row justify-between py-1 px-2 text-start hover:bg-gray-100">
-                            <label
-                              htmlFor="todos"
-                              className="text-gray-700 font-medium"
-                            >
-                              Todos per page:
-                            </label>
-                            <select
-                              className="text-gray-700 font-medium mr-2"
-                              name="todos"
-                              id="todos"
-                              onChange={(e) =>
-                                setTodosPerPage(parseInt(e.target.value))
-                              }
-                            >
-                              <option value="10">10</option>
-                              <option value="25">25</option>
-                              <option value="50">50</option>
-                            </select>
-                          </li>
-                        </ul>
-                      </div>
-                    )}
+                            <li className="flex flex-row justify-between py-1 px-2 text-start hover:bg-gray-100">
+                              <label
+                                htmlFor="todos"
+                                className="text-gray-700 font-medium"
+                              >
+                                Todos per page:
+                              </label>
+                              <select
+                                className="text-gray-700 font-medium mr-2"
+                                name="todos"
+                                id="todos"
+                                onChange={(e) =>
+                                  setTodosPerPage(parseInt(e.target.value))
+                                }
+                              >
+                                <option value="10">10</option>
+                                <option value="25">25</option>
+                                <option value="50">50</option>
+                              </select>
+                            </li>
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredTodos.map((todo, index) => (
-              <tr
-                key={todo.id}
-                className={classnames("border-t", {
-                  "bg-green-300":
-                    todo.done && selectedDoneTodos.includes(index),
-                  "bg-red-300": isOverdue(todo.targetDate) && !todo.done,
-                  "bg-yellow-300": isToday(todo.targetDate) && !todo.done,
-                })}
-              >
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {todo.description}
-                </td>
-                <td className="relative py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {todo.targetDate}
-                </td>
-                <td className="relative py-2 px-4 text-center font-sans font-semibold text-gray-650">
-                  <input
-                    type="checkbox"
-                    checked={todo.done}
-                    onChange={handleDoneTodoUpdate(todo, index)}
-                  />
-                  {(isOverdue(todo.targetDate) ||
-                    (isToday(todo.targetDate) && !todo.done)) && (
-                    <span
-                      className={`${
-                        todo.done ? "hidden" : "absolute -top-1 h-3 w-3"
-                      }`}
-                    >
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3w-3 bg-red-400"></span>
-                    </span>
-                  )}
-                </td>
-                <td className="flex flex-col sm:flex-row justify-end items-center">
-                  <button
-                    className="bg-yellow-500 hover:bg-yellow-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded mb-2 sm:mr-4 sm:mb-0"
-                    onClick={() => handleUpdateTodo(todo.id)}
-                  >
-                    Update
-                  </button>
-                  <button
-                    className="bg-red-700 hover:bg-red-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded"
-                    onClick={() => handleDeleteTodo(todo.id)}
-                  >
-                    Delete
-                  </button>
-                </td>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredTodos.map((todo, index) => (
+                <tr
+                  key={todo.id}
+                  className={classnames("border-t", {
+                    "bg-green-300":
+                      todo.done && selectedDoneTodos.includes(index),
+                    "bg-red-300": isOverdue(todo.targetDate) && !todo.done,
+                    "bg-yellow-300": isToday(todo.targetDate) && !todo.done,
+                  })}
+                >
+                  <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {todo.description}
+                  </td>
+                  <td className="relative py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {todo.targetDate}
+                  </td>
+                  <td className="relative py-2 px-4 text-center font-sans font-semibold text-gray-650">
+                    <input
+                      type="checkbox"
+                      checked={todo.done}
+                      onChange={handleDoneTodoUpdate(todo, index)}
+                    />
+                    {(isOverdue(todo.targetDate) ||
+                      (isToday(todo.targetDate) && !todo.done)) && (
+                      <span
+                        className={`${
+                          todo.done ? "hidden" : "absolute -top-1 h-3 w-3"
+                        }`}
+                      >
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                        <span className="relative inline-flex rounded-full h-3w-3 bg-red-400"></span>
+                      </span>
+                    )}
+                  </td>
+                  <td className="flex flex-col sm:flex-row justify-end items-center">
+                    <button
+                      className="bg-yellow-500 hover:bg-yellow-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded mb-2 sm:mr-4 sm:mb-0"
+                      onClick={() => handleUpdateTodo(todo.id)}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="bg-red-700 hover:bg-red-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded"
+                      onClick={() => handleDeleteTodo(todo.id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         <PaginatorComponent
           todosPerPage={todosPerPage}
           totalTodos={todos.length}

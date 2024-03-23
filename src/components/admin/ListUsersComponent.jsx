@@ -99,98 +99,99 @@ const ListUsersComponent = () => {
             />
           </div>
         </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-slate-300 border-gray-500 border-2 shadow-md ">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  ID
+                </th>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  Username
+                </th>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  Email
+                </th>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  Role
+                </th>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  Enabled
+                </th>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  Blocked
+                </th>
+                <th className="py-2 px-4 border-b text-left font-extrabold">
+                  Registration Date
+                </th>
 
-        <table className="min-w-full bg-slate-300 border-gray-500 border-2 shadow-md ">
-          <thead>
-            <tr>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                ID
-              </th>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                Username
-              </th>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                Email
-              </th>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                Role
-              </th>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                Enabled
-              </th>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                Blocked
-              </th>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
-                Registration Date
-              </th>
-
-              <th className="py-2 px-4 border-b text-center font-extrabold">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredUsers.map((user) => (
-              <tr key={user.username} className="border-t">
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {user.id}
-                </td>
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {user.username}
-                </td>
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {user.email}
-                </td>
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {user.role} {}
-                </td>
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {user.enabled ? "Yes" : "No"}
-                </td>
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {user.accountNonLocked ? "No" : "Yes"}
-                </td>
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {user.registrationDate}
-                </td>
-                <td className="flex flex-row justify-end items-center">
-                  <div className="flex flex-col sm:flex-row justify-end items-center">
-                    <button
-                      className="disabled:opacity-75 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed bg-yellow-500 hover:bg-yellow-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded mb-2 sm:mr-4 sm:mb-0"
-                      onClick={() => handleBlockUser(user)}
-                      disabled={authContext.userId === user.id}
-                    >
-                      {user.accountNonLocked ? "Block" : "Unblock"}
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        setShowModal(!showModal);
-                        setCurrentUser(user.id);
-                      }}
-                      disabled={authContext.userId === user.id}
-                      className="disabled:opacity-75 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed bg-blue-500 hover:bg-blue-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded mb-2 sm:mr-4 sm:mb-0"
-                    >
-                      Set Role
-                    </button>
-
-                    <button
-                      className="disabled:opacity-75 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed bg-red-700 hover:bg-red-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded"
-                      onClick={() => {
-                        setShowDeleteComponent(!showDeleteComponent);
-                        setCurrentUser(user.id);
-                      }}
-                      disabled={authContext.userId === user.id}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </td>
+                <th className="py-2 px-4 border-b text-center font-extrabold">
+                  Actions
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {filteredUsers.map((user) => (
+                <tr key={user.username} className="border-t">
+                  <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {user.id}
+                  </td>
+                  <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {user.username}
+                  </td>
+                  <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {user.email}
+                  </td>
+                  <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {user.role} {}
+                  </td>
+                  <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {user.enabled ? "Yes" : "No"}
+                  </td>
+                  <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {user.accountNonLocked ? "No" : "Yes"}
+                  </td>
+                  <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
+                    {user.registrationDate}
+                  </td>
+                  <td className="flex flex-row justify-end items-center">
+                    <div className="flex flex-col sm:flex-row justify-end items-center">
+                      <button
+                        className="disabled:opacity-75 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed bg-yellow-500 hover:bg-yellow-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded mb-2 sm:mr-4 sm:mb-0"
+                        onClick={() => handleBlockUser(user)}
+                        disabled={authContext.userId === user.id}
+                      >
+                        {user.accountNonLocked ? "Block" : "Unblock"}
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setShowModal(!showModal);
+                          setCurrentUser(user.id);
+                        }}
+                        disabled={authContext.userId === user.id}
+                        className="disabled:opacity-75 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed bg-blue-500 hover:bg-blue-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded mb-2 sm:mr-4 sm:mb-0"
+                      >
+                        Set Role
+                      </button>
+
+                      <button
+                        className="disabled:opacity-75 disabled:hover:bg-blue-300 disabled:hover:cursor-not-allowed bg-red-700 hover:bg-red-900 ease-in duration-300 w-20 text-white font-bold mt-1 py-1 px-2 rounded"
+                        onClick={() => {
+                          setShowDeleteComponent(!showDeleteComponent);
+                          setCurrentUser(user.id);
+                        }}
+                        disabled={authContext.userId === user.id}
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
         {showModal && (
           <RoleComponent
             userId={currentUser}
