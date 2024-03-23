@@ -7,10 +7,17 @@ import {
 } from "../../api/TodoApiService";
 import { useAuth } from "../../security/AuthContext";
 import { useNavigate } from "react-router-dom";
+import PaginatorComponent from "../utils/PaginatorComponent";
 
 const ListTodoComponent = () => {
+  const [currentTodos, setCurrentTodos] = useState([]);
   const [todos, setTodos] = useState([]);
   const [selectedDoneTodos, setSelectedDoneTodos] = useState([]);
+  const [sortByDateAsc, setSortByDateAsc] = useState(true);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [todosPerPage, setTodosPerPage] = useState(10);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const authContext = useAuth();
   const username = authContext.username;
@@ -20,6 +27,7 @@ const ListTodoComponent = () => {
     retrieveAllTodosForUsernameApi(username)
       .then((response) => {
         setTodos(response.data);
+        setCurrentTodos(response.data);
 
         const selectedDoneIndexes = response.data
           .map((todo, index) => (todo.done ? index : -1))
@@ -48,6 +56,47 @@ const ListTodoComponent = () => {
     );
   };
 
+  const sortTodosByDateAsc = () => {
+    const sortedTodos = [...todos].sort((a, b) => {
+      const dateA = new Date(a.targetDate);
+      const dateB = new Date(b.targetDate);
+      return dateA - dateB;
+    });
+    setTodos(sortedTodos);
+    setCurrentTodos(sortedTodos);
+    setSortByDateAsc(true);
+    updateSelectedDoneIndexes(sortedTodos);
+  };
+
+  const sortTodosByDateDesc = () => {
+    const sortedTodos = [...todos].sort((a, b) => {
+      const dateA = new Date(a.targetDate);
+      const dateB = new Date(b.targetDate);
+      return dateB - dateA;
+    });
+    setTodos(sortedTodos);
+    setCurrentTodos(sortedTodos);
+    setSortByDateAsc(false);
+    updateSelectedDoneIndexes(sortedTodos);
+  };
+
+  const sortTodosByIsDone = () => {
+    const sortedTodos = [...todos].sort((a, b) => {
+      return a.done === b.done ? 0 : a.done ? -1 : 1;
+    });
+    setTodos(sortedTodos);
+    setCurrentTodos(sortedTodos);
+    setSortByDateAsc(true);
+    updateSelectedDoneIndexes(sortedTodos);
+  };
+
+  const updateSelectedDoneIndexes = (sortedTodos) => {
+    const selectedDoneIndexes = sortedTodos
+      .map((todo, index) => (todo.done ? index : -1))
+      .filter((index) => index !== -1);
+    setSelectedDoneTodos(selectedDoneIndexes);
+  };
+
   function handleUpdateTodo(id) {
     navigate(`/user/todo/${id}`);
   }
@@ -74,8 +123,26 @@ const ListTodoComponent = () => {
     });
   }
 
+  const indexOfLastTodo = currentPage * todosPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
+  const currentTodosOnPage = currentTodos.slice(
+    indexOfFirstTodo,
+    indexOfLastTodo
+  );
+
+  const handleSearchTermChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredTodos = todos.filter((todo) => {
+    return (
+      todo.description &&
+      todo.description.toLowerCase().startsWith(searchTerm.toLowerCase())
+    );
+  });
+
   return (
-    <div className="flex flex-col min-h-screen bg-gray-800">
+    <div id="user-todos" className="flex flex-col min-h-screen bg-gray-800">
       <div className="flex-grow overflow-x-auto bg-gray-900 shadow-md w-11/12 self-center rounded px-6 pt-6 pb-8 my-4 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
         <div className="w-full flex flex-col font-bold mb-5">
           <h2 className="text-3xl font-semibold text-white mb-4">
@@ -92,9 +159,6 @@ const ListTodoComponent = () => {
           <thead>
             <tr>
               <th className="py-2 px-4 border-b text-left font-extrabold">
-                ID
-              </th>
-              <th className="py-2 px-4 border-b text-left font-extrabold">
                 Description
               </th>
               <th className="py-2 px-4 border-b text-left font-extrabold">
@@ -103,10 +167,84 @@ const ListTodoComponent = () => {
               <th className="py-2 px-4 border-b text-center font-extrabold">
                 Is Done?
               </th>
+
+              <th className="py-2 border-b text-end font-extrabold">
+                <div className="flex flex-col sm:flex-row justify-end items-center gap-4">
+                  <input
+                    type="text"
+                    placeholder="Find Description"
+                    className="py-1 px-2 w-40 bg-gray-300 font-normal text-gray-600 border-2 border-black rounded placeholder:font-normal placeholder:text-gray-600"
+                    value={searchTerm}
+                    onChange={handleSearchTermChange}
+                  />
+                  <div className="relative">
+                    <button
+                      className="bg-gray-500 w-20 hover:bg-gray-700 ease-in duration-300 text-white font-bold py-1 px-2 rounded"
+                      onClick={() => setShowDropdown(!showDropdown)}
+                    >
+                      {showDropdown ? "Close" : "Filter"}
+                    </button>
+                    {showDropdown && (
+                      <div className="absolute top-8 right-0 mx-4 my-2 min-w-[200px] z-10  bg-white rounded shadow-md">
+                        <ul className="list-none">
+                          <li className="py-1 px-2 text-start hover:bg-gray-100">
+                            <a
+                              href="#user-todos"
+                              className="text-gray-700 font-medium "
+                              onClick={() => sortTodosByDateAsc()}
+                            >
+                              Target Date: Ascending
+                            </a>
+                          </li>
+                          <li className="py-1 px-2 text-start hover:bg-gray-100">
+                            <a
+                              href="#user-todos"
+                              className="text-gray-700 font-medium "
+                              onClick={() => sortTodosByDateDesc()}
+                            >
+                              Target Date: Descending
+                            </a>
+                          </li>
+                          <li className="py-1 px-2 text-start hover:bg-gray-100">
+                            <a
+                              href="#user-todos"
+                              className="text-gray-700 font-medium "
+                              onClick={() => sortTodosByIsDone()}
+                            >
+                              Is Done?
+                            </a>
+                          </li>
+
+                          <li className="flex flex-row justify-between py-1 px-2 text-start hover:bg-gray-100">
+                            <label
+                              htmlFor="todos"
+                              className="text-gray-700 font-medium"
+                            >
+                              Todos per page:
+                            </label>
+                            <select
+                              className="text-gray-700 font-medium mr-2"
+                              name="todos"
+                              id="todos"
+                              onChange={(e) =>
+                                setTodosPerPage(parseInt(e.target.value))
+                              }
+                            >
+                              <option value="10">10</option>
+                              <option value="25">25</option>
+                              <option value="50">50</option>
+                            </select>
+                          </li>
+                        </ul>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </th>
             </tr>
           </thead>
           <tbody>
-            {todos.map((todo, index) => (
+            {filteredTodos.map((todo, index) => (
               <tr
                 key={todo.id}
                 className={classnames("border-t", {
@@ -116,9 +254,6 @@ const ListTodoComponent = () => {
                   "bg-yellow-300": isToday(todo.targetDate) && !todo.done,
                 })}
               >
-                <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
-                  {todo.id}
-                </td>
                 <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
                   {todo.description}
                 </td>
@@ -138,8 +273,8 @@ const ListTodoComponent = () => {
                         todo.done ? "hidden" : "absolute -top-1 h-3 w-3"
                       }`}
                     >
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-300 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-3 w-3 bg-red-400"></span>
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-3w-3 bg-red-400"></span>
                     </span>
                   )}
                 </td>
@@ -161,6 +296,11 @@ const ListTodoComponent = () => {
             ))}
           </tbody>
         </table>
+        <PaginatorComponent
+          todosPerPage={todosPerPage}
+          totalTodos={todos.length}
+          paginate={(pageNumber) => setCurrentPage(pageNumber)}
+        />
       </div>
     </div>
   );

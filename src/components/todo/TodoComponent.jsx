@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import {
   retrieveTodoApi,
   createTodoApi,
@@ -82,9 +82,18 @@ function TodoComponent() {
     <div className="flex flex-col items-center justify-center h-screen bg-gray-800">
       <div className="flex-grow overflow-x-auto bg-gray-900 shadow-md w-11/12 self-center rounded px-6 pt-6 pb-8 my-4 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
         <div className="container mx-auto mt-8 p-8 bg-slate-500 shadow-md rounded-md">
-          <h1 className="text-3xl font-bold mb-6 text-white">
-            Enter Todo Details
-          </h1>
+          <div className="flex flex-row justify-between items-baseline">
+            <h1 className="text-3xl font-bold mb-6 text-white">
+              Enter Todo Details
+            </h1>
+            <Link
+              className="text-lg font-bold text-gray-700 ease-in duration-300 hover:text-white"
+              to="/user/todos"
+            >
+              {" "}
+              Back to todos
+            </Link>
+          </div>
           <Formik
             initialValues={{ description, targetDate }}
             enableReinitialize={true}

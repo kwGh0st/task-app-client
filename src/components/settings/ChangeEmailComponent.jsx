@@ -64,7 +64,7 @@ const ChangeEmailComponent = () => {
             className="mt-3 font-bold text-blue-600 ease-in duration-300 hover:text-blue-300"
             to="/user/settings"
           >
-            Back to settings.
+            Back to settings
           </Link>
         </div>
         <div className="w-full flex flex-row justify-center"></div>

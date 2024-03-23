@@ -87,7 +87,7 @@ const ResendVerificationTokenComponent = () => {
           to="/login"
           className="self-start mt-12 ml-2 font-bold text-gray-400 ease-in duration-300 hover:text-gray-500 text-sm"
         >
-          Back to login page.
+          Back to login page
         </Link>
       </div>
     </div>

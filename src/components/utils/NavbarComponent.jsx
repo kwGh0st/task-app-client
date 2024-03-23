@@ -39,9 +39,8 @@ function NavbarComponent() {
           className="flex items-center gap-6 text-2xl font-bold text-white ease-in duration-300 hover:text-gray-500"
         >
           <img src={icon} alt="avatar" className="w-12 m-0 p-0"></img>
-          <p className="text-white text-[18px] font-bold cursor-pointer flex">
-            Tasks&nbsp;
-            <span className="md:block hidden">Management App</span>
+          <p className="text-white text-[22px] font-mono font-bold cursor-pointer flex italic underline">
+            Todosy
           </p>
         </Link>
         {isAuthenticated && (

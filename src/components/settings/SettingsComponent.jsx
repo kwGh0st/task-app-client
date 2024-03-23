@@ -18,7 +18,7 @@ const SettingsComponent = () => {
             className="mt-3 ml-2 font-bold text-blue-600 ease-in duration-300 hover:text-blue-300"
             to="/user/welcome"
           >
-            Back to dashboard.
+            Back to dashboard
           </Link>
         </div>
         <div className="w-full flex flex-row justify-center"></div>

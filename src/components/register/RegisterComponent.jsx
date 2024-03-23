@@ -88,7 +88,7 @@ const RegisterComponent = () => {
             className="mt-3 font-bold text-blue-600 ease-in duration-300 hover:text-blue-300"
             to="/login"
           >
-            Back to login page.
+            Back to login page
           </Link>
         </div>
         <div className="w-full flex flex-row justify-center">
