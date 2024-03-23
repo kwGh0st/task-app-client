@@ -144,16 +144,90 @@ const ListTodoComponent = () => {
   return (
     <div id="user-todos" className="flex flex-col min-h-screen bg-gray-800">
       <div className="flex-grow overflow-x-auto bg-gray-900 shadow-md w-11/12 self-center rounded px-6 pt-6 pb-8 my-4 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
-        <div className="w-full flex flex-col font-bold mb-5">
+        <div className="w-full flex flex-col font-bold mb-5 gap-4">
           <h2 className="text-3xl font-semibold text-white mb-4">
             Todo for user: {username}
           </h2>
-          <button
-            className="bg-green-600 rounded-md p-3 text-white ease-in duration-300 hover:bg-green-950 mb-4 sm:mb-0"
-            onClick={() => navigate(`/user/todo/-1`)}
-          >
-            Add New Todo
-          </button>
+
+          <div className="flex flex-row justify-between items-center gap-2">
+            <button
+              className="bg-green-600 w-1/3 rounded-md p-3 text-white ease-in duration-300 hover:bg-green-950 mb-4 sm:mb-0"
+              onClick={() => navigate(`/user/todo/-1`)}
+            >
+              Add New Todo
+            </button>
+            <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
+              <input
+                type="text"
+                placeholder="Find Description"
+                className="py-1 px-2 w-40 bg-gray-300 font-normal text-gray-600 border-2 border-black rounded placeholder:font-normal placeholder:text-gray-600"
+                value={searchTerm}
+                onChange={handleSearchTermChange}
+              />
+              <div className="relative">
+                <button
+                  className="bg-gray-500 w-40 hover:bg-gray-700 ease-in duration-300 text-white font-bold py-1 px-2 rounded"
+                  onClick={() => setShowDropdown(!showDropdown)}
+                >
+                  {showDropdown ? "Close" : "Filter"}
+                </button>
+                {showDropdown && (
+                  <div className="absolute top-8 right-0 mx-4 my-2 min-w-[200px] z-10  bg-white rounded shadow-md">
+                    <ul className="list-none">
+                      <li className="py-1 px-2 text-start hover:bg-gray-100">
+                        <a
+                          href="#user-todos"
+                          className="text-gray-700 font-medium "
+                          onClick={() => sortTodosByDateAsc()}
+                        >
+                          Target Date: Ascending
+                        </a>
+                      </li>
+                      <li className="py-1 px-2 text-start hover:bg-gray-100">
+                        <a
+                          href="#user-todos"
+                          className="text-gray-700 font-medium "
+                          onClick={() => sortTodosByDateDesc()}
+                        >
+                          Target Date: Descending
+                        </a>
+                      </li>
+                      <li className="py-1 px-2 text-start hover:bg-gray-100">
+                        <a
+                          href="#user-todos"
+                          className="text-gray-700 font-medium "
+                          onClick={() => sortTodosByIsDone()}
+                        >
+                          Is Done?
+                        </a>
+                      </li>
+
+                      <li className="flex flex-row justify-between py-1 px-2 text-start hover:bg-gray-100">
+                        <label
+                          htmlFor="todos"
+                          className="text-gray-700 font-medium"
+                        >
+                          Todos per page:
+                        </label>
+                        <select
+                          className="text-gray-700 font-medium mr-2"
+                          name="todos"
+                          id="todos"
+                          onChange={(e) =>
+                            setTodosPerPage(parseInt(e.target.value))
+                          }
+                        >
+                          <option value="10">10</option>
+                          <option value="25">25</option>
+                          <option value="50">50</option>
+                        </select>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-slate-300 border-gray-500 border-2 shadow-md table-auto ">
@@ -169,79 +243,7 @@ const ListTodoComponent = () => {
                   Is Done?
                 </th>
 
-                <th className="py-2 border-b text-end font-extrabold">
-                  <div className="flex flex-col sm:flex-row justify-end items-center gap-4">
-                    <input
-                      type="text"
-                      placeholder="Find Description"
-                      className="py-1 px-2 w-40 bg-gray-300 font-normal text-gray-600 border-2 border-black rounded placeholder:font-normal placeholder:text-gray-600"
-                      value={searchTerm}
-                      onChange={handleSearchTermChange}
-                    />
-                    <div className="relative">
-                      <button
-                        className="bg-gray-500 w-20 hover:bg-gray-700 ease-in duration-300 text-white font-bold py-1 px-2 rounded"
-                        onClick={() => setShowDropdown(!showDropdown)}
-                      >
-                        {showDropdown ? "Close" : "Filter"}
-                      </button>
-                      {showDropdown && (
-                        <div className="absolute top-8 right-0 mx-4 my-2 min-w-[200px] z-10  bg-white rounded shadow-md">
-                          <ul className="list-none">
-                            <li className="py-1 px-2 text-start hover:bg-gray-100">
-                              <a
-                                href="#user-todos"
-                                className="text-gray-700 font-medium "
-                                onClick={() => sortTodosByDateAsc()}
-                              >
-                                Target Date: Ascending
-                              </a>
-                            </li>
-                            <li className="py-1 px-2 text-start hover:bg-gray-100">
-                              <a
-                                href="#user-todos"
-                                className="text-gray-700 font-medium "
-                                onClick={() => sortTodosByDateDesc()}
-                              >
-                                Target Date: Descending
-                              </a>
-                            </li>
-                            <li className="py-1 px-2 text-start hover:bg-gray-100">
-                              <a
-                                href="#user-todos"
-                                className="text-gray-700 font-medium "
-                                onClick={() => sortTodosByIsDone()}
-                              >
-                                Is Done?
-                              </a>
-                            </li>
-
-                            <li className="flex flex-row justify-between py-1 px-2 text-start hover:bg-gray-100">
-                              <label
-                                htmlFor="todos"
-                                className="text-gray-700 font-medium"
-                              >
-                                Todos per page:
-                              </label>
-                              <select
-                                className="text-gray-700 font-medium mr-2"
-                                name="todos"
-                                id="todos"
-                                onChange={(e) =>
-                                  setTodosPerPage(parseInt(e.target.value))
-                                }
-                              >
-                                <option value="10">10</option>
-                                <option value="25">25</option>
-                                <option value="50">50</option>
-                              </select>
-                            </li>
-                          </ul>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </th>
+                <th className="py-2 border-b text-end font-extrabold"></th>
               </tr>
             </thead>
             <tbody>
