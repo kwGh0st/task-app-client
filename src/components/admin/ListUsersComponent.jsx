@@ -85,6 +85,18 @@ const ListUsersComponent = () => {
     indexOfLastUser
   );
 
+  const nextPage = () => {
+    if (currentPage < Math.ceil(filteredUsers.length / elementsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-800">
       <div className="flex-grow overflow-x-auto bg-gray-900 shadow-md w-11/12 self-center rounded px-6 pt-6 pb-8 my-4 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
@@ -158,7 +170,7 @@ const ListUsersComponent = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredUsers.map((user) => (
+              {currentUsersPerPage.map((user) => (
                 <tr key={user.username} className="border-t">
                   <td className="py-2 px-4 text-left font-sans font-semibold text-gray-650">
                     {user.id}
@@ -220,9 +232,11 @@ const ListUsersComponent = () => {
           </table>
         </div>
         <PaginatorComponent
-          elementsPerPage={currentUsersPerPage}
-          totalElements={users.length}
+          elementsPerPage={elementsPerPage}
+          totalElements={filteredUsers.length}
           paginate={(pageNumber) => setCurrentPage(pageNumber)}
+          nextPage={nextPage}
+          prevPage={prevPage}
         />
         {showModal && (
           <RoleComponent
