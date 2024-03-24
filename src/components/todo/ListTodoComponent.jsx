@@ -11,8 +11,6 @@ import PaginatorComponent from "../utils/PaginatorComponent";
 
 const ListTodoComponent = () => {
   const [todos, setTodos] = useState([]);
-  const [selectedDoneTodos, setSelectedDoneTodos] = useState([]);
-  const [sortByDateAsc, setSortByDateAsc] = useState(true);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [elementsPerPage, setElementsPerPage] = useState(10);
@@ -55,7 +53,6 @@ const ListTodoComponent = () => {
       return dateA - dateB;
     });
     setTodos(sortedTodos);
-    setSortByDateAsc(true);
   };
 
   const sortTodosByDateDesc = () => {
@@ -65,8 +62,6 @@ const ListTodoComponent = () => {
       return dateB - dateA;
     });
     setTodos(sortedTodos);
-
-    setSortByDateAsc(false);
   };
 
   const sortTodosByIsDone = () => {
@@ -74,8 +69,6 @@ const ListTodoComponent = () => {
       return a.done === b.done ? 0 : a.done ? -1 : 1;
     });
     setTodos(sortedTodos);
-
-    setSortByDateAsc(true);
   };
 
   function handleUpdateTodo(id) {
@@ -87,13 +80,6 @@ const ListTodoComponent = () => {
       todo.done = !todo.done;
       updateTodoApi(username, todo.id, todo).then(() => {
         refreshTodos();
-        if (todo.done) {
-          setSelectedDoneTodos((prevSelected) => [...prevSelected, index]);
-        } else {
-          setSelectedDoneTodos((prevSelected) =>
-            prevSelected.filter((selected) => selected !== index)
-          );
-        }
       });
     };
   }
