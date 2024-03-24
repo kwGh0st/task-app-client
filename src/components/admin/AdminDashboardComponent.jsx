@@ -5,9 +5,6 @@ import { Link, redirect } from "react-router-dom";
 const AdminDashboardComponent = () => {
   const authContext = useAuth();
 
-  // Sprawdź, czy użytkownik ma rolę admina
-
-  // Jeśli nie jest administratorem, przekieruj go do innej strony
   if (!authContext.isAdmin()) {
     return redirect("/error");
   }

@@ -58,7 +58,7 @@ function NavbarComponent() {
                     active === link.id
                       ? "text-slate-500 underline"
                       : "text-white"
-                  } text-white font-bold text-lg hover:text-slate-500 hover:underline ease-in duration-300 cursor-pointer`}
+                  }  font-bold text-lg hover:text-slate-500 hover:underline ease-in duration-300 cursor-pointer`}
                   key={link.id}
                   to={toPath(link)}
                   onClick={
