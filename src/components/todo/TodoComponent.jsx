@@ -62,8 +62,8 @@ function TodoComponent() {
       // targetDate: "Enter a valid target date",
     };
 
-    if (values.description.length < 10) {
-      errors.description = "Enter atleast 10 characters";
+    if (values.description.length < 3) {
+      errors.description = "Enter atleast 3 characters";
     }
 
     if (

@@ -48,15 +48,17 @@ function NavbarComponent() {
             {navLinks.map((link) => (
               <li
                 key={link.id}
-                className={`${
-                  active === link.id ? "bg-gray-950" : "bg-slate-500"
-                } 
+                className={` 
                 ${
                   !authContext.isAdmin() && link.id === "Admin" ? "hidden" : ""
-                } px-4 py-2 bg-slate-500 rounded-xl ease-in duration-300 hover:bg-gray-950 cursor-pointer`}
+                } px-4 py-2 `}
               >
                 <Link
-                  className="text-white"
+                  className={`${
+                    active === link.id
+                      ? "text-slate-500 underline"
+                      : "text-white"
+                  } text-white font-bold text-lg hover:text-slate-500 hover:underline ease-in duration-300 cursor-pointer`}
                   key={link.id}
                   to={toPath(link)}
                   onClick={
@@ -103,7 +105,11 @@ function NavbarComponent() {
                         ? "hidden"
                         : ""
                     }
-                    ${active === link.id ? "text-blue-700" : " text-gray-950"}
+                    ${
+                      active === link.id
+                        ? "text-blue-700 underline"
+                        : " text-gray-950"
+                    }
                      ease-in duration-300 hover:text-blue-700 font-medium cursor-pointer text-16px`}
                   >
                     <Link

@@ -10,13 +10,12 @@ import { useNavigate } from "react-router-dom";
 import PaginatorComponent from "../utils/PaginatorComponent";
 
 const ListTodoComponent = () => {
-  const [currentTodos, setCurrentTodos] = useState([]);
   const [todos, setTodos] = useState([]);
   const [selectedDoneTodos, setSelectedDoneTodos] = useState([]);
   const [sortByDateAsc, setSortByDateAsc] = useState(true);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [todosPerPage, setTodosPerPage] = useState(10);
+  const [elementsPerPage, setElementsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
 
   const authContext = useAuth();
@@ -27,13 +26,6 @@ const ListTodoComponent = () => {
     retrieveAllTodosForUsernameApi(username)
       .then((response) => {
         setTodos(response.data);
-        setCurrentTodos(response.data);
-
-        const selectedDoneIndexes = response.data
-          .map((todo, index) => (todo.done ? index : -1))
-          .filter((index) => index !== -1);
-
-        setSelectedDoneTodos(selectedDoneIndexes);
       })
       .catch((error) => console.log(error));
   }, [username]);
@@ -63,9 +55,7 @@ const ListTodoComponent = () => {
       return dateA - dateB;
     });
     setTodos(sortedTodos);
-    setCurrentTodos(sortedTodos);
     setSortByDateAsc(true);
-    updateSelectedDoneIndexes(sortedTodos);
   };
 
   const sortTodosByDateDesc = () => {
@@ -75,9 +65,8 @@ const ListTodoComponent = () => {
       return dateB - dateA;
     });
     setTodos(sortedTodos);
-    setCurrentTodos(sortedTodos);
+
     setSortByDateAsc(false);
-    updateSelectedDoneIndexes(sortedTodos);
   };
 
   const sortTodosByIsDone = () => {
@@ -85,16 +74,8 @@ const ListTodoComponent = () => {
       return a.done === b.done ? 0 : a.done ? -1 : 1;
     });
     setTodos(sortedTodos);
-    setCurrentTodos(sortedTodos);
-    setSortByDateAsc(true);
-    updateSelectedDoneIndexes(sortedTodos);
-  };
 
-  const updateSelectedDoneIndexes = (sortedTodos) => {
-    const selectedDoneIndexes = sortedTodos
-      .map((todo, index) => (todo.done ? index : -1))
-      .filter((index) => index !== -1);
-    setSelectedDoneTodos(selectedDoneIndexes);
+    setSortByDateAsc(true);
   };
 
   function handleUpdateTodo(id) {
@@ -123,13 +104,6 @@ const ListTodoComponent = () => {
     });
   }
 
-  const indexOfLastTodo = currentPage * todosPerPage;
-  const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
-  const currentTodosOnPage = currentTodos.slice(
-    indexOfFirstTodo,
-    indexOfLastTodo
-  );
-
   const handleSearchTermChange = (e) => {
     setSearchTerm(e.target.value);
   };
@@ -141,6 +115,25 @@ const ListTodoComponent = () => {
     );
   });
 
+  const indexOfLastTodo = currentPage * elementsPerPage;
+  const indexOfFirstTodo = indexOfLastTodo - elementsPerPage;
+  const currentTodosOnPage = filteredTodos.slice(
+    indexOfFirstTodo,
+    indexOfLastTodo
+  );
+
+  const nextPage = () => {
+    if (currentPage < Math.ceil(filteredTodos.length / elementsPerPage)) {
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
   return (
     <div id="user-todos" className="flex flex-col min-h-screen bg-gray-800">
       <div className="flex-grow overflow-x-auto bg-gray-900 shadow-md w-11/12 self-center rounded px-6 pt-6 pb-8 my-4 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
@@ -151,10 +144,10 @@ const ListTodoComponent = () => {
 
           <div className="flex flex-row justify-between items-center gap-2">
             <button
-              className="bg-green-600 w-1/3 rounded-md p-3 text-white ease-in duration-300 hover:bg-green-950 mb-4 sm:mb-0"
+              className="bg-green-600 w-[100px] rounded-md p-3 text-white ease-in duration-300 hover:bg-green-950 mb-4 sm:mb-0"
               onClick={() => navigate(`/user/todo/-1`)}
             >
-              Add New Todo
+              New
             </button>
             <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
               <input
@@ -214,7 +207,7 @@ const ListTodoComponent = () => {
                           name="todos"
                           id="todos"
                           onChange={(e) =>
-                            setTodosPerPage(parseInt(e.target.value))
+                            setElementsPerPage(parseInt(e.target.value))
                           }
                         >
                           <option value="10">10</option>
@@ -247,12 +240,11 @@ const ListTodoComponent = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredTodos.map((todo, index) => (
+              {currentTodosOnPage.map((todo, index) => (
                 <tr
                   key={todo.id}
                   className={classnames("border-t", {
-                    "bg-green-300":
-                      todo.done && selectedDoneTodos.includes(index),
+                    "bg-green-300": todo.done,
                     "bg-red-300": isOverdue(todo.targetDate) && !todo.done,
                     "bg-yellow-300": isToday(todo.targetDate) && !todo.done,
                   })}
@@ -301,9 +293,11 @@ const ListTodoComponent = () => {
           </table>
         </div>
         <PaginatorComponent
-          todosPerPage={todosPerPage}
-          totalTodos={todos.length}
+          elementsPerPage={elementsPerPage}
+          totalElements={filteredTodos.length}
           paginate={(pageNumber) => setCurrentPage(pageNumber)}
+          nextPage={nextPage}
+          prevPage={prevPage}
         />
       </div>
     </div>

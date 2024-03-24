@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import RoleComponent from "./RoleComponent";
 import DeleteUserComponent from "./DeleteUserComponent";
+import PaginatorComponent from "../utils/PaginatorComponent";
 import { useNavigate } from "react-router-dom";
 
 const ListUsersComponent = () => {
@@ -17,6 +18,8 @@ const ListUsersComponent = () => {
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [showDeleteComponent, setShowDeleteComponent] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [elementsPerPage, setElementsPerPage] = useState(10);
   const authContext = useAuth();
   const navigate = useNavigate();
 
@@ -75,6 +78,13 @@ const ListUsersComponent = () => {
     );
   });
 
+  const indexOfLastUser = currentPage * elementsPerPage;
+  const indexOfFirstUser = indexOfLastUser - elementsPerPage;
+  const currentUsersPerPage = filteredUsers.slice(
+    indexOfFirstUser,
+    indexOfLastUser
+  );
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-800">
       <div className="flex-grow overflow-x-auto bg-gray-900 shadow-md w-11/12 self-center rounded px-6 pt-6 pb-8 my-4 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
@@ -85,18 +95,35 @@ const ListUsersComponent = () => {
           </h2>
           <div className="flex flex-row flex-wrap justify-between">
             <button
-              className="bg-green-600 rounded-md px-3 text-white ease-in duration-300 hover:bg-green-950 mb-4 sm:mb-0"
+              className="bg-green-600 w-[100px] rounded-md p-3 text-white ease-in duration-300 hover:bg-green-950 mb-4 sm:mb-0"
               onClick={() => navigate("/admin/create-new-user")}
             >
-              Register new User
+              New
             </button>
-            <input
-              type="text"
-              placeholder="Search by username"
-              className="p-2 mb-4 bg-gray-700 text-white rounded"
-              value={searchTerm}
-              onChange={handleSearchTermChange}
-            />
+            <div className="flex flex-row gap-4 items-start">
+              <input
+                type="text"
+                placeholder="Search by username"
+                className="p-2 bg-gray-700 text-white rounded self-end"
+                value={searchTerm}
+                onChange={handleSearchTermChange}
+              />
+              <div className="flex flex-col gap-4">
+                <label htmlFor="count" className="text-white font-bold">
+                  Users per page:
+                </label>
+                <select
+                  className="text-white font-medium mr-2 bg-gray-900 w-full"
+                  name="count"
+                  id="count"
+                  onChange={(e) => setElementsPerPage(parseInt(e.target.value))}
+                >
+                  <option value="10">10</option>
+                  <option value="25">25</option>
+                  <option value="50">50</option>
+                </select>
+              </div>
+            </div>
           </div>
         </div>
         <div className="overflow-x-auto">
@@ -192,6 +219,11 @@ const ListUsersComponent = () => {
             </tbody>
           </table>
         </div>
+        <PaginatorComponent
+          elementsPerPage={currentUsersPerPage}
+          totalElements={users.length}
+          paginate={(pageNumber) => setCurrentPage(pageNumber)}
+        />
         {showModal && (
           <RoleComponent
             userId={currentUser}

@@ -1,15 +1,15 @@
 import React from "react";
 
 const PaginatorComponent = ({
-  todosPerPage,
-  totalTodos,
+  elementsPerPage,
+  totalElements,
   paginate,
   nextPage,
   prevPage,
 }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalTodos / todosPerPage); i++) {
+  for (let i = 1; i <= Math.ceil(totalElements / elementsPerPage); i++) {
     pageNumbers.push(i);
   }
 
