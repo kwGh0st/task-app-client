@@ -1,23 +1,25 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import classnames from "classnames";
 import {
   retrieveAllTodosForUsernameApi,
   deleteTodoApi,
   updateTodoApi,
+  executeUpdateTodosNotification,
 } from "../../api/TodoApiService";
-import { useAuth } from "../../security/AuthContext";
+import { useAuth, AuthContext } from "../../security/AuthContext";
 import { useNavigate } from "react-router-dom";
 import PaginatorComponent from "../utils/PaginatorComponent";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ListTodoComponent = () => {
+  const authContext = useAuth();
   const [todos, setTodos] = useState([]);
   const [showDropdown, setShowDropdown] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [elementsPerPage, setElementsPerPage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const authContext = useAuth();
-  const username = authContext.username;
+  const { username, todosEmailNotification } = authContext;
   const navigate = useNavigate();
 
   const refreshTodos = useCallback(() => {
@@ -75,13 +77,25 @@ const ListTodoComponent = () => {
     navigate(`/user/todo/${id}`);
   }
 
-  function handleDoneTodoUpdate(todo, index) {
+  function handleDoneTodoUpdate(todo) {
     return () => {
       todo.done = !todo.done;
       updateTodoApi(username, todo.id, todo).then(() => {
         refreshTodos();
       });
     };
+  }
+
+  async function handleTodosNotificationUpdate() {
+    const updatedNotification = !todosEmailNotification;
+    await executeUpdateTodosNotification(username, updatedNotification)
+      .then((response) => {
+        toast.success(response.data);
+        authContext.fetchData(username);
+      })
+      .catch((error) => {
+        toast.error(error.response.data);
+      });
   }
 
   function handleDeleteTodo(id) {
@@ -122,6 +136,7 @@ const ListTodoComponent = () => {
 
   return (
     <div id="user-todos" className="flex flex-col min-h-screen bg-gray-800">
+      <ToastContainer position="top-right" autoClose={6000} />
       <div className="flex-grow overflow-x-auto bg-gray-900 shadow-md w-11/12 self-center rounded px-6 pt-6 pb-8 my-4 mx-4 sm:mx-8 md:mx-16 lg:mx-24 xl:mx-32">
         <div className="w-full flex flex-col font-bold mb-5 gap-4">
           <h2 className="text-3xl font-semibold text-white mb-4">
@@ -148,10 +163,10 @@ const ListTodoComponent = () => {
                   className="bg-gray-500 w-40 hover:bg-gray-700 ease-in duration-300 text-white font-bold py-1 px-2 rounded"
                   onClick={() => setShowDropdown(!showDropdown)}
                 >
-                  {showDropdown ? "Close" : "Filter"}
+                  {showDropdown ? "Close" : "Options"}
                 </button>
                 {showDropdown && (
-                  <div className="absolute top-8 right-0 mx-4 my-2 min-w-[200px] z-10  bg-white rounded shadow-md">
+                  <div className="absolute top-8 right-0 mx-4 my-2 min-w-[220px] z-10  bg-white rounded shadow-md">
                     <ul className="list-none">
                       <li className="py-1 px-2 text-start hover:bg-gray-100">
                         <a
@@ -159,7 +174,7 @@ const ListTodoComponent = () => {
                           className="text-gray-700 font-medium "
                           onClick={() => sortTodosByDateAsc()}
                         >
-                          Target Date: Ascending
+                          Sort by Date: Ascending
                         </a>
                       </li>
                       <li className="py-1 px-2 text-start hover:bg-gray-100">
@@ -168,7 +183,7 @@ const ListTodoComponent = () => {
                           className="text-gray-700 font-medium "
                           onClick={() => sortTodosByDateDesc()}
                         >
-                          Target Date: Descending
+                          Sort by Date: Descending
                         </a>
                       </li>
                       <li className="py-1 px-2 text-start hover:bg-gray-100">
@@ -177,8 +192,19 @@ const ListTodoComponent = () => {
                           className="text-gray-700 font-medium "
                           onClick={() => sortTodosByIsDone()}
                         >
-                          Is Done?
+                          Sort done todos
                         </a>
+                      </li>
+                      <li className="py-1 px-2 text-start flex flex-row justify-between">
+                        <p className="text-gray-700 font-medium">
+                          Email Notifications?
+                        </p>
+                        <input
+                          className="mr-2"
+                          type="checkbox"
+                          checked={todosEmailNotification}
+                          onChange={handleTodosNotificationUpdate}
+                        />
                       </li>
 
                       <li className="flex flex-row justify-between py-1 px-2 text-start hover:bg-gray-100">

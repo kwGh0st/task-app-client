@@ -14,3 +14,10 @@ export const updateTodoApi = (username, id, todo) =>
 
 export const createTodoApi = (username, todo) =>
   apiClient.post(`/user/todo/${username}/todos`, todo);
+
+export const executeUpdateTodosNotification = async (
+  username,
+  notifications
+) => {
+  return await apiClient.post(`/user/todo/${username}/${notifications}`);
+};

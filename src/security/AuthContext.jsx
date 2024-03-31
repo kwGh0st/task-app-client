@@ -21,6 +21,7 @@ export default function AuthProvider({ children }) {
   const [roles, setRoles] = useState([]);
   const [email, setEmail] = useState(null);
   const [userId, setUserId] = useState(0);
+  const [todosEmailNotification, setTodosEmailNotification] = useState(false);
 
   const logout = useCallback(() => {
     setIsAuthenticated(false);
@@ -28,6 +29,7 @@ export default function AuthProvider({ children }) {
     setUsername(null);
     setEmail(null);
     setRoles([]);
+    setTodosEmailNotification(false);
     setUserId(0);
   }, []);
 
@@ -36,6 +38,7 @@ export default function AuthProvider({ children }) {
       .then((response) => {
         setEmail(response.data.email);
         setUserId(response.data.id);
+        setTodosEmailNotification(response.data.wantTodosNotification);
         return response;
       })
       .catch((error) => {
@@ -97,6 +100,7 @@ export default function AuthProvider({ children }) {
       token,
       roles,
       userId,
+      todosEmailNotification,
     }),
     [
       isAuthenticated,
@@ -110,6 +114,7 @@ export default function AuthProvider({ children }) {
       token,
       roles,
       userId,
+      todosEmailNotification,
     ]
   );
 
