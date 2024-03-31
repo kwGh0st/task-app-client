@@ -39,8 +39,6 @@ function TodoComponent() {
       done: false,
     };
 
-    console.log(todo);
-
     if (id == -1) {
       createTodoApi(username, todo)
         .then(() => {
@@ -74,7 +72,6 @@ function TodoComponent() {
       errors.targetDate = "Enter a target date";
     }
 
-    console.log(values);
     return errors;
   }
 
